@@ -1,62 +1,76 @@
-# CSS-475-Final-Project
-# Sales Analytics — CSS 475 Final Project
-**Team: Chill Guys**
-Joshua Ramos · Ryan Doan · Tenzin Tashi · Vito Mkrtychyan · Brian Nguyen
+# 📊 Sales Analytics
+### CSS 475 Final Project — Team: Chill Guys
+
+> A Java-based sales management system backed by PostgreSQL on AWS RDS.  
+> Replaces error-prone spreadsheets with a centralized relational database supporting pipeline tracking, rep performance analytics, and deal forecasting.
+
+**Team Members:** Joshua Ramos · Ryan Doan · Tenzin Tashi · Vito Mkrtychyan · Brian Nguyen
 
 ---
 
-## Project Structure
+## 📌 Business Problem
+
+Sales teams relying on spreadsheets face inconsistent data, missing history, unclear pipeline status, and poor visibility into rep performance. This system provides a centralized relational database to track sales reps, customers, opportunities, interactions, and outcomes — with full analytics support.
+
+---
+
+## 🗂️ Project Structure
 
 ```
 sales-analytics/
 ├── sql/
-│   ├── 01_create_schema.sql     # Creates all tables
-│   └── 02_seed_data.sql         # Loads sample data
+│   ├── 01_create_schema.sql        # All tables, FKs, indexes
+│   └── 02_seed_data.sql            # Sample data for testing
 ├── lib/
-│   └── postgresql-42.7.3.jar    # JDBC driver (download separately)
+│   └── postgresql-42.7.3.jar       # JDBC driver (download separately — see setup)
 ├── src/main/java/com/salesanalytics/
 │   ├── util/
-│   │   └── DBConnection.java    # AWS RDS connection
-│   ├── server/
-│   │   ├── Server_ListOpportunitiesForRep.java   ← Joshua
-│   │   └── Server_GetPipelineForecast.java       ← Joshua
-│   ├── client/
-│   │   ├── Client_ListOpportunitiesForRep.java   ← Joshua
-│   │   └── Client_GetPipelineForecast.java       ← Joshua
+│   │   └── DBConnection.java       # AWS RDS connection config
+│   ├── server/                     # DB query logic (Server_<ApiName>.java)
+│   │   ├── Server_ListOpportunitiesForRep.java
+│   │   ├── Server_GetPipelineForecast.java
+│   │   └── ... (teammates' files)
+│   ├── client/                     # User-facing I/O (Client_<ApiName>.java)
+│   │   ├── Client_ListOpportunitiesForRep.java
+│   │   ├── Client_GetPipelineForecast.java
+│   │   └── ... (teammates' files)
 │   └── driver/
-│       └── Driver.java          # Main menu
-├── compile_and_run.sh
+│       └── Driver.java             # Main menu entry point
+├── compile_and_run.sh              # One-command build & run (Mac/Linux)
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Step 1 — Set Up AWS RDS PostgreSQL
+## ⚙️ Setup & Installation
 
-1. Log in to [AWS Console](https://console.aws.amazon.com/) → RDS → Create Database
-2. Choose:
+### 1. AWS RDS — Create a PostgreSQL Database
+
+1. Go to [AWS Console](https://console.aws.amazon.com/) → **RDS** → **Create database**
+2. Configure:
    - Engine: **PostgreSQL**
    - Template: **Free tier**
-   - DB instance identifier: `salesanalytics`
+   - DB identifier: `salesanalytics`
    - Master username: `postgres`
-   - Master password: (set one and remember it)
-3. Under **Connectivity**, set **Public access = Yes**
-4. Under **VPC security group**, add an inbound rule:
-   - Type: PostgreSQL | Port: 5432 | Source: **My IP**
-5. Click **Create database** and wait ~5 min for it to become Available
-6. Copy the **Endpoint** from the RDS console (e.g. `salesanalytics.abc123.us-west-2.rds.amazonaws.com`)
+   - Set a password and save it
+3. Under **Connectivity** → set **Public access = Yes**
+4. Under **VPC security group** → add an inbound rule:
+   - Type: `PostgreSQL` | Port: `5432` | Source: `My IP`
+5. Create the database and wait ~5 minutes for it to become **Available**
+6. Copy the **Endpoint** from the RDS console — you'll need it next
 
 ---
 
-## Step 2 — Create the Database
+### 2. Load the Database
 
-Connect with psql (or DBeaver/pgAdmin):
+Connect via `psql`, DBeaver, or pgAdmin:
 
 ```bash
-psql -h YOUR_ENDPOINT -U postgres -p 5432 -d postgres
+psql -h YOUR_RDS_ENDPOINT -U postgres -p 5432 -d postgres
 ```
 
-Then run:
+Then create and populate the database:
 
 ```sql
 CREATE DATABASE salesanalytics;
@@ -67,97 +81,121 @@ CREATE DATABASE salesanalytics;
 
 ---
 
-## Step 3 — Configure DBConnection.java
+### 3. Configure the Database Connection
 
-Open `src/main/java/com/salesanalytics/util/DBConnection.java` and set your endpoint:
+Open `src/main/java/com/salesanalytics/util/DBConnection.java` and paste your RDS endpoint:
 
 ```java
-private static final String DB_HOST = "YOUR_RDS_ENDPOINT_HERE";
+private static final String DB_HOST = "your-endpoint.rds.amazonaws.com";
 ```
 
-Or set environment variables (more secure):
+Alternatively, use environment variables (recommended — keeps credentials out of code):
 
 ```bash
-export DB_HOST=salesanalytics.abc123.us-west-2.rds.amazonaws.com
+export DB_HOST=your-endpoint.rds.amazonaws.com
 export DB_USER=postgres
 export DB_PASS=your_password
 ```
 
+> ⚠️ **Never commit your password or endpoint to GitHub.** The `.gitignore` already excludes secrets files — keep it that way.
+
 ---
 
-## Step 4 — Download PostgreSQL JDBC Driver
+### 4. Download the PostgreSQL JDBC Driver
 
 ```bash
 mkdir lib
-# Download from https://jdbc.postgresql.org/download/
-# Place as: lib/postgresql-42.7.3.jar
-```
-
-Or with curl:
-```bash
 curl -L -o lib/postgresql-42.7.3.jar \
   https://jdbc.postgresql.org/download/postgresql-42.7.3.jar
 ```
 
+Or download manually from [jdbc.postgresql.org](https://jdbc.postgresql.org/download/) and place the `.jar` in `lib/`.
+
 ---
 
-## Step 5 — Compile and Run
+### 5. Compile & Run
 
+**Mac / Linux:**
 ```bash
 chmod +x compile_and_run.sh
 ./compile_and_run.sh
 ```
 
-Windows:
+**Windows:**
 ```cmd
 mkdir out
-javac -cp lib\postgresql-42.7.3.jar -d out src\main\java\com\salesanalytics\**\*.java
+javac -cp lib\postgresql-42.7.3.jar -d out src\main\java\com\salesanalytics\util\*.java src\main\java\com\salesanalytics\server\*.java src\main\java\com\salesanalytics\client\*.java src\main\java\com\salesanalytics\driver\*.java
 java -cp out;lib\postgresql-42.7.3.jar com.salesanalytics.driver.Driver
 ```
 
 ---
 
-## Step 6 — Push to GitHub
+## 🧰 API Reference
 
-```bash
-git init
-git add .
-git commit -m "Initial commit - Sales Analytics CSS 475"
-git remote add origin https://github.com/YOUR_USERNAME/sales-analytics.git
-git push -u origin main
-```
+### Sales Rep Management
+| API | Type | Author |
+|-----|------|--------|
+| `CreateSalesRep` | CRUD Single | Tenzin |
+| `UpdateSalesRep` | CRUD Single | Tenzin |
+| `ListSalesReps` | List | Tenzin |
+| `GetSalesRepDetails` | Detail | Tenzin |
 
-**Important:** Add a `.gitignore` so you don't commit credentials:
+### Customer Management
+| API | Type | Author |
+|-----|------|--------|
+| `CreateCustomer` | CRUD Single | Tenzin |
+| `UpdateCustomer` | CRUD Single | Tenzin |
+| `GetCustomerHistory` | Detail | Ryan |
 
-```
-# .gitignore
-lib/
-out/
-*.class
-```
+### Opportunity Management
+| API | Type | Author |
+|-----|------|--------|
+| `CreateOpportunity` | CRUD Single | Tenzin |
+| `UpdateOpportunity` | CRUD Single | Brian |
+| `ListOpportunitiesForRep` | Large List | Joshua |
+| `CloseOpportunity` | CRUD Multi | Ryan |
+
+### Interaction & Analytics
+| API | Type | Author |
+|-----|------|--------|
+| `LogInteraction` | CRUD Single | Brian |
+| `GetPipelineForecast` | Complex Query | Joshua |
+| `CalculateRepPerformance` | Complex Query | Vito |
 
 ---
 
-## API Overview (Joshua's APIs)
+## 🗄️ Database Schema
 
-### 8. ListOpportunitiesForRep (Large List — 80 pts)
-- **Input:** rep email
-- **Output:** all opportunities for that rep with company, stage, status, deal amount, close date
-- **Files:** `Server_ListOpportunitiesForRep.java`, `Client_ListOpportunitiesForRep.java`
+9 tables with enforced foreign keys and no derived data storage (3NF compliant):
 
-### 9. GetPipelineForecast (Complex Query — 60 pts)
-- **Input:** rep email (optional — leave blank for all reps)
-- **Output:** total open pipeline value + breakdown by stage
-- **Files:** `Server_GetPipelineForecast.java`, `Client_GetPipelineForecast.java`
+```
+SalesReps ──< Customers ──< Opportunities >── OpportunityStage
+                │                │             OpportunityStatus
+                └──< Quotas      └──< Sales
+                └──< Interactions >── InteractionType
+```
+
+**Core tables:** `SalesReps`, `Customers`, `Opportunities`, `Interactions`, `Sales`, `Quotas`  
+**Lookup tables:** `OpportunityStage`, `OpportunityStatus`, `InteractionType`
 
 ---
 
-## Who Did What
+## 👥 Team Contributions
 
-| Name    | Component                                    | Points |
-|---------|----------------------------------------------|--------|
-| Vito    | DB Creation + CalculateRepPerformance        | 30+60  |
-| Ryan    | Driver + CloseOpportunity + GetCustomerHistory | 30+60+50 |
-| Tenzin  | CreateSalesRep + CreateCustomer + CreateOpportunity | 40×3 |
-| Brian   | LogInteraction + UpdateOpportunity           | 40+40  |
-| Joshua  | ListOpportunitiesForRep + GetPipelineForecast | 80+60  |
+| Name | Components | Max Points |
+|------|-----------|-----------|
+| **Vito** | DB Creation, `CalculateRepPerformance` | 30 + 60 |
+| **Ryan** | Driver Program, `CloseOpportunity`, `GetCustomerHistory` | 30 + 60 + 50 |
+| **Tenzin** | `CreateSalesRep`, `CreateCustomer`, `CreateOpportunity` | 40 + 40 + 40 |
+| **Brian** | `LogInteraction`, `UpdateOpportunity` | 40 + 40 |
+| **Joshua** | `ListOpportunitiesForRep`, `GetPipelineForecast` | 80 + 60 |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Language:** Java 17+
+- **Database:** PostgreSQL 15 on AWS RDS
+- **JDBC Driver:** postgresql-42.7.3
+- **Schema:** Relational, 3NF, no derived attributes
+- **Version Control:** Git / GitHub
