@@ -43,31 +43,26 @@ CSS-475-Final-Project/
 
 ---
 
-## ⚙️ Setup & Installation
+## ⚙️ Setup (Teammates — follow these 4 steps)
 
-### 1. AWS RDS — Database is already set up
+### 1. Configure the Database Connection
 
-The PostgreSQL database is live on AWS RDS. Use these connection details:
-
-- **Host:** `salesanalytics.cn6sqqsw4jj5.us-east-2.rds.amazonaws.com`
-- **Port:** `5432`
-- **Database:** `salesanalytics`
-- **User:** `postgres`
-- **Password:** XXXX
-
-> The schema and seed data are already loaded. You do NOT need to run the SQL files unless starting fresh.
-
----
-
-### 2. Configure the Database Connection
-
-Open `src/main/java/com/salesanalytics/util/DBConnection.java` and make sure the endpoint is set:
+Open `src/main/java/com/salesanalytics/util/DBConnection.java` and confirm the endpoint is set:
 
 ```java
 private static final String DB_HOST = "salesanalytics.cn6sqqsw4jj5.us-east-2.rds.amazonaws.com";
 ```
 
-### 3. Download the PostgreSQL JDBC Driver
+Then add the password to this line:
+```java
+private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "YOUR_PASSWORD_HERE");
+```
+
+> ⚠️ Get the password from Joshua directly. **Never commit the password to GitHub.**
+
+---
+
+### 2. Download the PostgreSQL JDBC Driver
 
 ```bash
 mkdir lib
@@ -79,7 +74,7 @@ Or download manually from [jdbc.postgresql.org](https://jdbc.postgresql.org/down
 
 ---
 
-### 4. Compile & Run
+### 3. Compile & Run
 
 **Mac / Linux:**
 ```bash
@@ -96,7 +91,7 @@ java -cp out;lib\postgresql-42.7.3.jar com.salesanalytics.driver.Driver
 
 ---
 
-### 5. Adding Your APIs to the Project
+### 4. Adding Your APIs
 
 1. Add your `Client_<ApiName>.java` to `src/main/java/com/salesanalytics/client/`
 2. Add your `Server_<ApiName>.java` to `src/main/java/com/salesanalytics/server/`
