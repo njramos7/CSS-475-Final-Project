@@ -43,7 +43,7 @@ CSS-475-Final-Project/
 
 ---
 
-## ⚙️ Setup (Teammates — follow these 4 steps)
+## ⚙️ Setup for Team
 
 ### 1. Configure the Database Connection
 
@@ -58,8 +58,7 @@ Then add the password to this line:
 private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "YOUR_PASSWORD_HERE");
 ```
 
-> ⚠️ Get the password from Joshua directly. **Never commit the password to GitHub.**
-
+> ⚠️ Get the password from the team directly
 ---
 
 ### 2. Download the PostgreSQL JDBC Driver
