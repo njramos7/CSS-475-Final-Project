@@ -53,7 +53,7 @@ The PostgreSQL database is live on AWS RDS. Use these connection details:
 - **Port:** `5432`
 - **Database:** `salesanalytics`
 - **User:** `postgres`
-- **Password:** ask Joshua
+- **Password:** XXXX
 
 > The schema and seed data are already loaded. You do NOT need to run the SQL files unless starting fresh.
 
