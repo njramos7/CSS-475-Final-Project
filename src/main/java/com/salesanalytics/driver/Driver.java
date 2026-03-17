@@ -6,6 +6,10 @@ import com.salesanalytics.client.Client_CalculateRepPerformance;
 import com.salesanalytics.client.Client_CreateSalesRep;
 import com.salesanalytics.client.Client_CreateCustomer;
 import com.salesanalytics.client.Client_CreateOpportunity;
+import com.salesanalytics.client.Client_UpdateSalesRep;
+import com.salesanalytics.client.Client_ListSalesReps;
+import com.salesanalytics.client.Client_GetSalesRepDetails;
+
 
 import java.util.Scanner;
 
@@ -45,6 +49,9 @@ public class Driver {
                 // case "2"  -> System.out.println("[Tenzin] CreateCustomer — not yet wired.");
                 // case "3"  -> System.out.println("[Tenzin] CreateOpportunity — not yet wired.");
                 case "1"  -> Client_CreateSalesRep.run(scanner);
+                case "11" -> Client_UpdateSalesRep.run(scanner); //update things
+                case "12" -> Client_ListSalesReps.run(scanner); // some thngs tngs
+                case "13" -> Client_GetSalesRepDetails.run(scanner); // things bro
                 case "2"  -> Client_CreateCustomer.run(scanner);
                 case "3"  -> Client_CreateOpportunity.run(scanner);
 
@@ -87,6 +94,9 @@ public class Driver {
             ├─────────────────────────────────────────┤
             │  SALES REP MANAGEMENT                   │
             │   1. Create Sales Rep      (Tenzin)     │
+            │  11. Update Sales Rep      (Tenzin)     │
+            │  12. List Sales Reps       (Tenzin)     │
+            │  13. Get Sales Rep Details (Tenzin)     │
             │   2. Create Customer       (Tenzin)     │
             │   3. Create Opportunity    (Tenzin)     │
             ├─────────────────────────────────────────┤
