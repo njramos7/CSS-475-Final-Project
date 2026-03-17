@@ -67,15 +67,6 @@ Open `src/main/java/com/salesanalytics/util/DBConnection.java` and make sure the
 private static final String DB_HOST = "salesanalytics.cn6sqqsw4jj5.us-east-2.rds.amazonaws.com";
 ```
 
-Also set your password:
-```java
-private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "your_password_here");
-```
-
-> ⚠️ Never commit your password to GitHub.
-
----
-
 ### 3. Download the PostgreSQL JDBC Driver
 
 ```bash
