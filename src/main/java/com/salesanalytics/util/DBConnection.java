@@ -27,13 +27,12 @@ public class DBConnection {
 
     // Set these as environment variables, or replace with literal strings for testing
     private static final String DB_USER = System.getenv().getOrDefault("DB_USER", "postgres");
-    private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "");
-    
+private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "ChillGuys!6767");
+     
     private static final String JDBC_URL =
             "jdbc:postgresql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
 
     private DBConnection() {} // Utility class — no instantiation
-
     /**
      * Returns a new JDBC connection to the AWS RDS PostgreSQL database.
      */

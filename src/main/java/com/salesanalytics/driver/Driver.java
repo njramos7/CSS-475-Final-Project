@@ -2,6 +2,7 @@ package com.salesanalytics.driver;
 
 import com.salesanalytics.client.Client_ListOpportunitiesForRep;
 import com.salesanalytics.client.Client_GetPipelineForecast;
+import com.salesanalytics.client.Client_CalculateRepPerformance;
 
 import java.util.Scanner;
 
@@ -54,7 +55,7 @@ public class Driver {
                 case "9"  -> Client_GetPipelineForecast.run(scanner);
 
                 // ── Analytics ────────────────────────────────────
-                case "10" -> System.out.println("[Vito] CalculateRepPerformance — not yet wired.");
+                case "10" -> Client_CalculateRepPerformance.run(scanner);
 
                 // ── Exit ─────────────────────────────────────────
                 case "0"  -> {
