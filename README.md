@@ -17,7 +17,7 @@ Sales teams relying on spreadsheets face inconsistent data, missing history, unc
 ## 🗂️ Project Structure
 
 ```
-sales-analytics/
+CSS-475-Final-Project/
 ├── sql/
 │   ├── 01_create_schema.sql        # All tables, FKs, indexes
 │   └── 02_seed_data.sql            # Sample data for testing
@@ -45,63 +45,38 @@ sales-analytics/
 
 ## ⚙️ Setup & Installation
 
-### 1. AWS RDS — Create a PostgreSQL Database
+### 1. AWS RDS — Database is already set up
 
-1. Go to [AWS Console](https://console.aws.amazon.com/) → **RDS** → **Create database**
-2. Configure:
-   - Engine: **PostgreSQL**
-   - Template: **Free tier**
-   - DB identifier: `salesanalytics`
-   - Master username: `postgres`
-   - Set a password and save it
-3. Under **Connectivity** → set **Public access = Yes**
-4. Under **VPC security group** → add an inbound rule:
-   - Type: `PostgreSQL` | Port: `5432` | Source: `My IP`
-5. Create the database and wait ~5 minutes for it to become **Available**
-6. Copy the **Endpoint** from the RDS console — you'll need it next
+The PostgreSQL database is live on AWS RDS. Use these connection details:
+
+- **Host:** `salesanalytics.cn6sqqsw4jj5.us-east-2.rds.amazonaws.com`
+- **Port:** `5432`
+- **Database:** `salesanalytics`
+- **User:** `postgres`
+- **Password:** ask Joshua
+
+> The schema and seed data are already loaded. You do NOT need to run the SQL files unless starting fresh.
 
 ---
 
-### 2. Load the Database
+### 2. Configure the Database Connection
 
-Connect via `psql`, DBeaver, or pgAdmin:
-
-```bash
-psql -h YOUR_RDS_ENDPOINT -U postgres -p 5432 -d postgres
-```
-
-Then create and populate the database:
-
-```sql
-CREATE DATABASE salesanalytics;
-\c salesanalytics
-\i sql/01_create_schema.sql
-\i sql/02_seed_data.sql
-```
-
----
-
-### 3. Configure the Database Connection
-
-Open `src/main/java/com/salesanalytics/util/DBConnection.java` and paste your RDS endpoint:
+Open `src/main/java/com/salesanalytics/util/DBConnection.java` and make sure the endpoint is set:
 
 ```java
-private static final String DB_HOST = "your-endpoint.rds.amazonaws.com";
+private static final String DB_HOST = "salesanalytics.cn6sqqsw4jj5.us-east-2.rds.amazonaws.com";
 ```
 
-Alternatively, use environment variables (recommended — keeps credentials out of code):
-
-```bash
-export DB_HOST=your-endpoint.rds.amazonaws.com
-export DB_USER=postgres
-export DB_PASS=your_password
+Also set your password:
+```java
+private static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "your_password_here");
 ```
 
-> ⚠️ **Never commit your password or endpoint to GitHub.** The `.gitignore` already excludes secrets files — keep it that way.
+> ⚠️ Never commit your password to GitHub.
 
 ---
 
-### 4. Download the PostgreSQL JDBC Driver
+### 3. Download the PostgreSQL JDBC Driver
 
 ```bash
 mkdir lib
@@ -113,7 +88,7 @@ Or download manually from [jdbc.postgresql.org](https://jdbc.postgresql.org/down
 
 ---
 
-### 5. Compile & Run
+### 4. Compile & Run
 
 **Mac / Linux:**
 ```bash
@@ -127,6 +102,15 @@ mkdir out
 javac -cp lib\postgresql-42.7.3.jar -d out src\main\java\com\salesanalytics\util\*.java src\main\java\com\salesanalytics\server\*.java src\main\java\com\salesanalytics\client\*.java src\main\java\com\salesanalytics\driver\*.java
 java -cp out;lib\postgresql-42.7.3.jar com.salesanalytics.driver.Driver
 ```
+
+---
+
+### 5. Adding Your APIs to the Project
+
+1. Add your `Client_<ApiName>.java` to `src/main/java/com/salesanalytics/client/`
+2. Add your `Server_<ApiName>.java` to `src/main/java/com/salesanalytics/server/`
+3. Open `Driver.java` and uncomment your import and your case number
+4. Run `compile_and_run.sh` to test
 
 ---
 
@@ -171,11 +155,10 @@ java -cp out;lib\postgresql-42.7.3.jar com.salesanalytics.driver.Driver
 ```
 SalesReps ──< Customers ──< Opportunities >── OpportunityStage
                 │                │             OpportunityStatus
-                └──< Quotas      └──< Sales
-                └──< Interactions >── InteractionType
+                └──< Quotas      └──< Interactions >── InteractionType
 ```
 
-**Core tables:** `SalesReps`, `Customers`, `Opportunities`, `Interactions`, `Sales`, `Quotas`  
+**Core tables:** `SalesReps`, `Customers`, `Opportunities`, `Interactions`, `Quotas`  
 **Lookup tables:** `OpportunityStage`, `OpportunityStatus`, `InteractionType`
 
 ---
@@ -185,10 +168,10 @@ SalesReps ──< Customers ──< Opportunities >── OpportunityStage
 | Name | Components | Max Points |
 |------|-----------|-----------|
 | **Vito** | DB Creation, `CalculateRepPerformance` | 30 + 60 |
-| **Ryan** | Driver Program, `CloseOpportunity`, `GetCustomerHistory` | 30 + 60 + 50 |
+| **Ryan** | `CloseOpportunity`, `GetCustomerHistory` | 60 + 50 |
 | **Tenzin** | `CreateSalesRep`, `CreateCustomer`, `CreateOpportunity` | 40 + 40 + 40 |
 | **Brian** | `LogInteraction`, `UpdateOpportunity` | 40 + 40 |
-| **Joshua** | `ListOpportunitiesForRep`, `GetPipelineForecast` | 80 + 60 |
+| **Joshua** | Driver Program, `ListOpportunitiesForRep`, `GetPipelineForecast` | 30 + 80 + 60 |
 
 ---
 
