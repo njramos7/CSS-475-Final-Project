@@ -1,4 +1,4 @@
-package main.java.com.salesanalytics.server;
+package com.salesanalytics.server;
 
 public class Server_CreateOpportunity {
 
