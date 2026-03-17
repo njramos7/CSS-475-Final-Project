@@ -11,7 +11,7 @@ fi
 
 echo "Compiling..."
 mkdir -p "$OUT_DIR"
-javac -cp "$JAR" -d "$OUT_DIR" *.java
+javac -cp "$JAR" -d "$OUT_DIR" $(find src -name "*.java")
 echo "Compile successful."
 
 echo "Starting Sales Analytics System..."

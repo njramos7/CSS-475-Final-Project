@@ -3,6 +3,9 @@ package com.salesanalytics.driver;
 import com.salesanalytics.client.Client_ListOpportunitiesForRep;
 import com.salesanalytics.client.Client_GetPipelineForecast;
 import com.salesanalytics.client.Client_CalculateRepPerformance;
+import com.salesanalytics.client.Client_CreateSalesRep;
+import com.salesanalytics.client.Client_CreateCustomer;
+import com.salesanalytics.client.Client_CreateOpportunity;
 
 import java.util.Scanner;
 
@@ -38,9 +41,12 @@ public class Driver {
             switch (choice) {
 
                 // ── Sales Rep Management ─────────────────────────
-                case "1"  -> System.out.println("[Tenzin] CreateSalesRep — not yet wired.");
-                case "2"  -> System.out.println("[Tenzin] CreateCustomer — not yet wired.");
-                case "3"  -> System.out.println("[Tenzin] CreateOpportunity — not yet wired.");
+                // case "1"  -> System.out.println("[Tenzin] CreateSalesRep — not yet wired.");
+                // case "2"  -> System.out.println("[Tenzin] CreateCustomer — not yet wired.");
+                // case "3"  -> System.out.println("[Tenzin] CreateOpportunity — not yet wired.");
+                case "1"  -> Client_CreateSalesRep.run(scanner);
+                case "2"  -> Client_CreateCustomer.run(scanner);
+                case "3"  -> Client_CreateOpportunity.run(scanner);
 
                 // ── Interaction & Opportunity ────────────────────
                 case "4"  -> System.out.println("[Brian] LogInteraction — not yet wired.");
