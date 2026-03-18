@@ -61,7 +61,7 @@ public class Driver {
                 case "5"  -> System.out.println("[Brian] UpdateOpportunity — not yet wired.");
 
                 // ── Close & History ──────────────────────────────
-                case "6"  -> System.out.println("[Ryan] CloseOpportunity — not yet wired.");
+                case "6"  -> Client_CloseOpportunity.run(scanner);
                 case "7"  -> System.out.println("[Ryan] GetCustomerHistory — not yet wired.");
 
                 // ── Joshua's APIs ────────────────────────────────
