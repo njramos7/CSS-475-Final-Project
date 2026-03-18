@@ -1,7 +1,6 @@
--- ============================================================
+
 -- Sales Analytics Seed Data
 -- Team: Chill Guys | CSS 475 Final Project
--- ============================================================
 
 -- Lookup: Interaction Types
 INSERT INTO InteractionType (typeName) VALUES

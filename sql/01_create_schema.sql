@@ -1,8 +1,7 @@
--- ============================================================
--- Sales Analytics Database Schema
--- Team: Chill Guys | CSS 475 Final Project
+-- Sales Analytics Database Schema Creation
+-- Team: Chill Guys
+-- CSS 475 Final Project
 -- Database: PostgreSQL (AWS RDS)
--- ============================================================
 
 -- Drop tables in reverse dependency order
 DROP TABLE IF EXISTS Sales CASCADE;
@@ -15,9 +14,7 @@ DROP TABLE IF EXISTS OpportunityStage CASCADE;
 DROP TABLE IF EXISTS OpportunityStatus CASCADE;
 DROP TABLE IF EXISTS InteractionType CASCADE;
 
--- ============================================================
 -- LOOKUP TABLES
--- ============================================================
 
 CREATE TABLE InteractionType (
     interactionTypeID SERIAL PRIMARY KEY,
@@ -34,9 +31,7 @@ CREATE TABLE OpportunityStatus (
     statusName VARCHAR(40) NOT NULL UNIQUE
 );
 
--- ============================================================
 -- CORE TABLES
--- ============================================================
 
 CREATE TABLE SalesReps (
     salesRepID SERIAL PRIMARY KEY,

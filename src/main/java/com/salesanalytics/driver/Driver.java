@@ -81,26 +81,26 @@ public class Driver {
             │           MAIN MENU                     │
             ├─────────────────────────────────────────┤
             │  SALES REP MANAGEMENT                   │
-            │   1.  Create Sales Rep     (Tenzin) ★   │
-            │   2.  Update Sales Rep     (Tenzin) ★   │
-            │   3.  List Sales Reps      (Tenzin) ★   │
-            │   4.  Get Sales Rep Detail (Tenzin) ★   │
+            │   1.  Create Sales Rep              ★   │
+            │   2.  Update Sales Rep              ★   │
+            │   3.  List Sales Reps               ★   │
+            │   4.  Get Sales Rep Detail          ★   │
             ├─────────────────────────────────────────┤
             │  CUSTOMER MANAGEMENT                    │
-            │   5.  Create Customer      (Tenzin) ★   │
-            │   6.  Update Customer      (Tenzin) ★   │
-            │   7.  Get Customer History (Ryan)   ★   │
+            │   5.  Create Customer               ★   │
+            │   6.  Update Customer               ★   │
+            │   7.  Get Customer History          ★   │
             ├─────────────────────────────────────────┤
             │  OPPORTUNITY MANAGEMENT                 │
-            │   8.  Create Opportunity   (Tenzin) ★   │
-            │   9.  Update Opportunity   (Brian)  ★   │
-            │  10.  Close Opportunity    (Ryan)   ★   │
-            │  11.  List Opps For Rep    (Joshua) ★   │
+            │   8.  Create Opportunity            ★   │
+            │   9.  Update Opportunity            ★   │
+            │  10.  Close Opportunity             ★   │
+            │  11.  List Opps For Rep             ★   │
             ├─────────────────────────────────────────┤
             │  INTERACTION & ANALYTICS                │
-            │  12.  Log Interaction      (Brian)  ★   │
-            │  13.  Get Pipeline Forecast(Joshua) ★   │
-            │  14.  Calc Rep Performance (Vito)   ★   │
+            │  12.  Log Interaction               ★   │
+            │  13.  Get Pipeline Forecast.        ★   │
+            │  14.  Calc Rep Performance          ★   │
             ├─────────────────────────────────────────┤
             │   0.  Exit                              │
             └─────────────────────────────────────────┘""");
