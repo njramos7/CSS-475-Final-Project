@@ -2,6 +2,14 @@ package com.salesanalytics.driver;
 
 import com.salesanalytics.client.Client_ListOpportunitiesForRep;
 import com.salesanalytics.client.Client_GetPipelineForecast;
+import com.salesanalytics.client.Client_CalculateRepPerformance;
+import com.salesanalytics.client.Client_CreateSalesRep;
+import com.salesanalytics.client.Client_CreateCustomer;
+import com.salesanalytics.client.Client_CreateOpportunity;
+import com.salesanalytics.client.Client_UpdateSalesRep;
+import com.salesanalytics.client.Client_ListSalesReps;
+import com.salesanalytics.client.Client_GetSalesRepDetails;
+import com.salesanalytics.client.Client_UpdateCustomer;
 import com.salesanalytics.client.Client_LogInteraction;
 import com.salesanalytics.client.Client_UpdateOpportunity;
 import com.salesanalytics.client.Client_CloseOpportunity;
@@ -36,13 +44,22 @@ public class Driver {
             switch (choice) {
 
                 // ── Sales Rep Management ─────────────────────────
-                case "1"  -> System.out.println("[Tenzin] CreateSalesRep — not yet wired.");
-                case "2"  -> System.out.println("[Tenzin] CreateCustomer — not yet wired.");
-                case "3"  -> System.out.println("[Tenzin] CreateOpportunity — not yet wired.");
+                // case "1"  -> System.out.println("[Tenzin] CreateSalesRep — not yet wired.");
+                // case "2"  -> System.out.println("[Tenzin] CreateCustomer — not yet wired.");
+                // case "3"  -> System.out.println("[Tenzin] CreateOpportunity — not yet wired.");
+                case "1"  -> Client_CreateSalesRep.run(scanner);
+                case "11" -> Client_UpdateSalesRep.run(scanner); //update things
+                case "12" -> Client_ListSalesReps.run(scanner); // some thngs tngs
+                case "13" -> Client_GetSalesRepDetails.run(scanner); // things bro
+                case "2"  -> Client_CreateCustomer.run(scanner);
+                case "14" -> Client_UpdateCustomer.run(scanner); //update things dude
+                case "3"  -> Client_CreateOpportunity.run(scanner);
+
 
                 // ── Interaction & Opportunity ────────────────────
                 case "4"  -> Client_LogInteraction.run(scanner);
                 case "5"  -> Client_UpdateOpportunity.run(scanner);
+                
 
                 // ── Close & History ──────────────────────────────
                 case "6"  -> Client_CloseOpportunity.run(scanner);
@@ -54,6 +71,7 @@ public class Driver {
 
                 // ── Analytics ────────────────────────────────────
                 case "10" -> System.out.println("[Vito] CalculateRepPerformance — not yet wired.");
+                //case "10" -> Client_CalculateRepPerformance.run(scanner);
 
                 // ── Exit ─────────────────────────────────────────
                 case "0"  -> {
