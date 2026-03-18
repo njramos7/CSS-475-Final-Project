@@ -16,7 +16,7 @@ public class Server_ListSalesReps {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
-            System.out.println("\n---- Sales Reps ---");
+            System.out.println("\n------------ Sales Reps ---------------\n");
 
             while (rs.next()) {
                 int id = rs.getInt("salesRepID");
@@ -24,7 +24,8 @@ public class Server_ListSalesReps {
                 String last = rs.getString("lastName");
                 String email = rs.getString("email");
 
-                System.out.println(id + " | " + first + " " + last + " | " + email);
+                // System.out.println(id + " | " + first + " " + last + " | " + email);
+                System.out.printf("%-4d %-14s %-10s %-32s\n", id, first, last, email);
             }
 
             rs.close();

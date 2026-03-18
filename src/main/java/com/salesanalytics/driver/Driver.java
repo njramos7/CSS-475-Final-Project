@@ -9,7 +9,7 @@ import com.salesanalytics.client.Client_CreateOpportunity;
 import com.salesanalytics.client.Client_UpdateSalesRep;
 import com.salesanalytics.client.Client_ListSalesReps;
 import com.salesanalytics.client.Client_GetSalesRepDetails;
-
+import com.salesanalytics.client.Client_UpdateCustomer;
 
 import java.util.Scanner;
 
@@ -53,6 +53,7 @@ public class Driver {
                 case "12" -> Client_ListSalesReps.run(scanner); // some thngs tngs
                 case "13" -> Client_GetSalesRepDetails.run(scanner); // things bro
                 case "2"  -> Client_CreateCustomer.run(scanner);
+                case "14" -> Client_UpdateCustomer.run(scanner); //update things dude
                 case "3"  -> Client_CreateOpportunity.run(scanner);
 
                 // ── Interaction & Opportunity ────────────────────
@@ -98,6 +99,7 @@ public class Driver {
             │  12. List Sales Reps       (Tenzin)     │
             │  13. Get Sales Rep Details (Tenzin)     │
             │   2. Create Customer       (Tenzin)     │
+            │  14. Update Customer       (Tenzin)     │
             │   3. Create Opportunity    (Tenzin)     │
             ├─────────────────────────────────────────┤
             │  INTERACTION & OPPORTUNITY              │

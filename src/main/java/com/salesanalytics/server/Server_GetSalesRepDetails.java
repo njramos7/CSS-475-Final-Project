@@ -26,8 +26,8 @@ public class Server_GetSalesRepDetails {
             String firstName = repResultSet.getString("firstName");
             String lastName = repResultSet.getString("lastName");
 
-            System.out.println("\n--- Sales Rep Details ---");
-            System.out.println(firstName + " " + lastName + " | " + email);
+            System.out.println("\n------------- Sales Rep Details ----------------\n");
+            System.out.println(firstName + " " + lastName + " || " + email);
 
             // Get Customers
             String customerQuery = "SELECT companyName, contactName, contactEmail, contactPhone FROM Customers WHERE assignedRepID = ?";
@@ -36,7 +36,7 @@ public class Server_GetSalesRepDetails {
 
             ResultSet customerResultSet = customerStatement.executeQuery();
 
-            System.out.println("\nAssigned Customers : ");
+            System.out.println("\n\n-------- Assigned Customers ----------\n");
 
             boolean hasCustomers = false;
 
