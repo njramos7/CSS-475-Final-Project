@@ -4,6 +4,8 @@ import com.salesanalytics.client.Client_ListOpportunitiesForRep;
 import com.salesanalytics.client.Client_GetPipelineForecast;
 import com.salesanalytics.client.Client_LogInteraction;
 import com.salesanalytics.client.Client_UpdateOpportunity;
+import com.salesanalytics.client.Client_CloseOpportunity;
+import com.salesanalytics.client.Client_GetCustomerHistory;
 
 import java.util.Scanner;
 
@@ -43,8 +45,8 @@ public class Driver {
                 case "5"  -> Client_UpdateOpportunity.run(scanner);
 
                 // ── Close & History ──────────────────────────────
-                case "6"  -> System.out.println("[Ryan] CloseOpportunity — not yet wired.");
-                case "7"  -> System.out.println("[Ryan] GetCustomerHistory — not yet wired.");
+                case "6"  -> Client_CloseOpportunity.run(scanner);
+                case "7"  -> Client_GetCustomerHistory.run(scanner);
 
                 // ── Joshua's APIs ────────────────────────────────
                 case "8"  -> Client_ListOpportunitiesForRep.run(scanner);
