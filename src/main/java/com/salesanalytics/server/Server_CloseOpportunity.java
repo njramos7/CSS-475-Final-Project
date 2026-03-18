@@ -6,98 +6,89 @@ import java.sql.ResultSet;
 
 import com.salesanalytics.util.DBConnection;
 
-public class Server_GetCustomerHistory {
+public class Server_CloseOpportunity {
 
-    public static void run(String companyName, String contactEmail) {
+    public static void run(int opportunityID, String outcomeStatus) {
 
-        String sql = """
-        SELECT
-            Customers.customerID,
-            Customers.companyName,
-            Customers.contactName,
-            Customers.contactEmail,
-            Customers.contactPhone,
-            SalesReps.firstName,
-            SalesReps.lastName,
-            Opportunities.opportunityID,
-            Opportunities.dealAmount,
-            Opportunities.expectedCloseDate,
-            Opportunities.actualCloseDate,
-            Opportunities.saleDate,
-            OpportunityStatus.statusName,
-            OpportunityStage.stageName,
-            Interactions.interactionID,
-            Interactions.interactionDate,
-            Interactions.notes,
-            InteractionType.typeName
-        FROM Customers
-            JOIN SalesReps ON Customers.assignedRepID = SalesReps.salesRepID
-            LEFT JOIN Opportunities ON Customers.customerID = Opportunities.customerID
-            LEFT JOIN OpportunityStatus ON Opportunities.statusID = OpportunityStatus.statusID
-            LEFT JOIN OpportunityStage ON Opportunities.stageID = OpportunityStage.stageID
-            LEFT JOIN Interactions ON Customers.customerID = Interactions.customerID
-            LEFT JOIN InteractionType ON Interactions.interactionTypeID = InteractionType.interactionTypeID
-        WHERE Customers.companyName = ?
-            AND Customers.contactEmail = ?
-        ORDER BY Opportunities.expectedCloseDate, Interactions.interactionDate
+        String getStatusSql = """
+        SELECT statusID
+        FROM OpportunityStatus
+        WHERE LOWER(statusName) = LOWER(?)
+        """;
+
+        String getStageSql = """
+        SELECT stageID
+        FROM OpportunityStage
+        WHERE LOWER(stageName) = LOWER('Closed')
+        """;
+
+        String updateSql = """
+        UPDATE Opportunities
+        SET statusID = ?,
+            stageID = ?,
+            actualCloseDate = CURRENT_TIMESTAMP,
+            saleDate = CURRENT_TIMESTAMP,
+            lastUpdated = CURRENT_TIMESTAMP
+        WHERE opportunityID = ?
         """;
 
         try {
             Connection con = DBConnection.getConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
 
-            statement.setString(1, companyName);
-            statement.setString(2, contactEmail);
+            int statusID = -1;
+            int stageID = -1;
 
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement statusStatement = con.prepareStatement(getStatusSql);
+            statusStatement.setString(1, outcomeStatus);
+            ResultSet statusResult = statusStatement.executeQuery();
 
-            boolean found = false;
-
-            while (rs.next()) {
-                if (!found) {
-                    System.out.println("\n---- GetCustomerHistory ---");
-                }
-                found = true;
-
-                System.out.println("Customer ID: " + rs.getInt("customerID"));
-                System.out.println("Company Name: " + rs.getString("companyName"));
-                System.out.println("Contact Name: " + rs.getString("contactName"));
-                System.out.println("Contact Email: " + rs.getString("contactEmail"));
-                System.out.println("Contact Phone: " + rs.getString("contactPhone"));
-                System.out.println("Assigned Rep: " + rs.getString("firstName") + " " + rs.getString("lastName"));
-
-                int opportunityID = rs.getInt("opportunityID");
-                if (!rs.wasNull()) {
-                    System.out.println("Opportunity ID: " + opportunityID);
-                    System.out.println("Deal Amount: $" + rs.getDouble("dealAmount"));
-                    System.out.println("Expected Close Date: " + rs.getTimestamp("expectedCloseDate"));
-                    System.out.println("Actual Close Date: " + rs.getTimestamp("actualCloseDate"));
-                    System.out.println("Sale Date: " + rs.getTimestamp("saleDate"));
-                    System.out.println("Stage: " + rs.getString("stageName"));
-                    System.out.println("Status: " + rs.getString("statusName"));
-                }
-
-                int interactionID = rs.getInt("interactionID");
-                if (!rs.wasNull()) {
-                    System.out.println("Interaction ID: " + interactionID);
-                    System.out.println("Interaction Type: " + rs.getString("typeName"));
-                    System.out.println("Interaction Date: " + rs.getTimestamp("interactionDate"));
-                    System.out.println("Notes: " + rs.getString("notes"));
-                }
-
-                System.out.println("-----------------------------------------");
+            if (statusResult.next()) {
+                statusID = statusResult.getInt("statusID");
+            } else {
+                System.out.println("Invalid status. Use Won or Lost.");
+                statusResult.close();
+                statusStatement.close();
+                con.close();
+                return;
             }
 
-            if (!found) {
-                System.out.println("No customer history found.");
+            PreparedStatement stageStatement = con.prepareStatement(getStageSql);
+            ResultSet stageResult = stageStatement.executeQuery();
+
+            if (stageResult.next()) {
+                stageID = stageResult.getInt("stageID");
+            } else {
+                System.out.println("Closed stage not found.");
+                statusResult.close();
+                statusStatement.close();
+                stageResult.close();
+                stageStatement.close();
+                con.close();
+                return;
             }
 
-            rs.close();
-            statement.close();
+            PreparedStatement updateStatement = con.prepareStatement(updateSql);
+            updateStatement.setInt(1, statusID);
+            updateStatement.setInt(2, stageID);
+            updateStatement.setInt(3, opportunityID);
+
+            int rowsUpdated = updateStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Opportunity closed successfully.");
+            } else {
+                System.out.println("Opportunity not found.");
+            }
+
+            statusResult.close();
+            statusStatement.close();
+            stageResult.close();
+            stageStatement.close();
+            updateStatement.close();
             con.close();
 
         } catch (Exception e) {
-            System.out.println("Error running GetCustomerHistory.");
+            System.out.println("Error running CloseOpportunity.");
             e.printStackTrace();
         }
     }
