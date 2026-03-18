@@ -23,7 +23,6 @@ public class Client_CreateOpportunity {
         System.out.print("Deal Amount: ");
         double dealAmount = Double.parseDouble(scanner.nextLine());
 
-        // Auto-generate timestamp (easy mode)
         Timestamp expectedCloseDate = new Timestamp(System.currentTimeMillis());
 
         Server_CreateOpportunity.run(
