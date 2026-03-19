@@ -14,7 +14,6 @@ public class Server_LogInteraction {
     ) {
         try (Connection conn = DBConnection.getConnection()) {
 
-            // 1. Get customerID
             PreparedStatement ps1 = conn.prepareStatement(
                 "SELECT customerID FROM Customers WHERE companyName = ? AND contactEmail = ?");
             ps1.setString(1, companyName);
@@ -26,7 +25,6 @@ public class Server_LogInteraction {
             }
             int customerID = rs1.getInt("customerID");
 
-            // 2. Get salesRepID
             PreparedStatement ps2 = conn.prepareStatement(
                 "SELECT salesRepID FROM SalesReps WHERE email = ?");
             ps2.setString(1, repEmail);
@@ -37,7 +35,6 @@ public class Server_LogInteraction {
             }
             int salesRepID = rs2.getInt("salesRepID");
 
-            // 3. Get interactionTypeID
             PreparedStatement ps3 = conn.prepareStatement(
                 "SELECT interactionTypeID FROM InteractionType WHERE typeName = ?");
             ps3.setString(1, interactionTypeName);
@@ -48,7 +45,6 @@ public class Server_LogInteraction {
             }
             int interactionTypeID = rs3.getInt("interactionTypeID");
 
-            // 4. Insert interaction
             PreparedStatement ps4 = conn.prepareStatement(
                 "INSERT INTO Interactions (customerID, salesRepID, interactionTypeID, interactionDate, notes) VALUES (?, ?, ?, ?, ?)");
             ps4.setInt(1, customerID);

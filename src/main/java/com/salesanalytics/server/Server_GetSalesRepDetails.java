@@ -10,7 +10,6 @@ public class Server_GetSalesRepDetails {
         try {
             Connection con = DBConnection.getConnection();
 
-           // Get Sales Rep
             String repQuery = "SELECT salesRepID, firstName, lastName, email FROM SalesReps WHERE email = ?";
             PreparedStatement repStatement = con.prepareStatement(repQuery);
             repStatement.setString(1, email);
@@ -29,7 +28,6 @@ public class Server_GetSalesRepDetails {
             System.out.println("\n------------- Sales Rep Details ----------------\n");
             System.out.println(firstName + " " + lastName + " || " + email);
 
-            // Get Customers
             String customerQuery = "SELECT companyName, contactName, contactEmail, contactPhone FROM Customers WHERE assignedRepID = ?";
             PreparedStatement customerStatement = con.prepareStatement(customerQuery);
             customerStatement.setInt(1, repID);

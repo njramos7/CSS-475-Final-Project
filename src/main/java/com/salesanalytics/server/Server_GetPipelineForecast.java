@@ -6,22 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Server_GetPipelineForecast
- *
- * Returns the estimated value of all OPEN opportunities,
- * broken down by stage. Optionally filtered by a single rep.
- *
- * API Type : Complex Query (60 pts)
- * Author   : Joshua Ramos
- */
+
 public class Server_GetPipelineForecast {
 
-    // -------------------------------------------------------
-    // Result records
-    // -------------------------------------------------------
 
-    /** One row per stage in the breakdown */
     public static class StageBreakdown {
         public String stageName;
         public int    opportunityCount;
@@ -34,7 +22,6 @@ public class Server_GetPipelineForecast {
         }
     }
 
-    /** Full forecast result */
     public static class ForecastResult {
         public String       repEmail;          // null = all reps
         public String       repName;           // null = all reps
@@ -64,24 +51,10 @@ public class Server_GetPipelineForecast {
         }
     }
 
-    // -------------------------------------------------------
-    // Core server method
-    // -------------------------------------------------------
-
-    /**
-     * GetPipelineForecast
-     *
-     * @param repEmail  sales rep email to filter by, or null/blank for all reps
-     * @return          ForecastResult with total + stage breakdown
-     * @throws SQLException on DB error or invalid rep email
-     */
     public static ForecastResult execute(String repEmail) throws SQLException {
 
         boolean filterByRep = (repEmail != null && !repEmail.isBlank());
 
-        // --------------------------------------------------
-        // 1. Validate rep if filtering
-        // --------------------------------------------------
         String repFirstName = null, repLastName = null;
         if (filterByRep) {
             String[] name = getRepName(repEmail);
@@ -92,9 +65,6 @@ public class Server_GetPipelineForecast {
             repLastName  = name[1];
         }
 
-        // --------------------------------------------------
-        // 2. Stage-level breakdown query (open opps only)
-        // --------------------------------------------------
         String breakdownSql = """
             SELECT
                 os.stageName,
@@ -112,9 +82,6 @@ public class Server_GetPipelineForecast {
             ORDER BY os.stageID
             """;
 
-        // --------------------------------------------------
-        // 3. Totals query
-        // --------------------------------------------------
         String totalSql = """
             SELECT
                 COUNT(o.opportunityID)         AS totalCount,
@@ -166,9 +133,6 @@ public class Server_GetPipelineForecast {
         return result;
     }
 
-    // -------------------------------------------------------
-    // Helper
-    // -------------------------------------------------------
     private static String[] getRepName(String repEmail) throws SQLException {
         String sql = "SELECT firstName, lastName FROM SalesReps WHERE LOWER(email) = LOWER(?)";
         Connection conn = null;

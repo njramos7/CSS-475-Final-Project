@@ -17,19 +17,20 @@ import com.salesanalytics.client.Client_CalculateRepPerformance;
 
 import java.util.Scanner;
 
-/**
- * Driver
- * CSS 475 Final Project — Team: Chill Guys
- */
+
+// Driver
+// CSS 475 Final Project — Team: Chill Guys
+
+
 public class Driver {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("╔══════════════════════════════════════════╗");
-        System.out.println("║     SALES ANALYTICS SYSTEM — CSS 475     ║");
-        System.out.println("║           Team: Chill Guys               ║");
-        System.out.println("╚══════════════════════════════════════════╝");
+        System.out.println("+===========================================+");
+        System.out.println("|     SALES ANALYTICS SYSTEM - CSS 475      |");
+        System.out.println("|           Team: Chill Guys                |");
+        System.out.println("+===========================================+");
 
         boolean running = true;
         while (running) {
@@ -77,32 +78,32 @@ public class Driver {
     private static void printMenu() {
         System.out.println("""
 
-            ┌─────────────────────────────────────────┐
-            │           MAIN MENU                     │
-            ├─────────────────────────────────────────┤
-            │  SALES REP MANAGEMENT                   │
-            │   1.  Create Sales Rep              ★   │
-            │   2.  Update Sales Rep              ★   │
-            │   3.  List Sales Reps               ★   │
-            │   4.  Get Sales Rep Detail          ★   │
-            ├─────────────────────────────────────────┤
-            │  CUSTOMER MANAGEMENT                    │
-            │   5.  Create Customer               ★   │
-            │   6.  Update Customer               ★   │
-            │   7.  Get Customer History          ★   │
-            ├─────────────────────────────────────────┤
-            │  OPPORTUNITY MANAGEMENT                 │
-            │   8.  Create Opportunity            ★   │
-            │   9.  Update Opportunity            ★   │
-            │  10.  Close Opportunity             ★   │
-            │  11.  List Opps For Rep             ★   │
-            ├─────────────────────────────────────────┤
-            │  INTERACTION & ANALYTICS                │
-            │  12.  Log Interaction               ★   │
-            │  13.  Get Pipeline Forecast.        ★   │
-            │  14.  Calc Rep Performance          ★   │
-            ├─────────────────────────────────────────┤
-            │   0.  Exit                              │
-            └─────────────────────────────────────────┘""");
+            +---------------------------------------------+
+            |           MAIN MENU                         |
+            +---------------------------------------------+
+            |  SALES REP MANAGEMENT                       |
+            |   1.  Create Sales Rep              *       |
+            |   2.  Update Sales Rep              *       |
+            |   3.  List Sales Reps               *       |
+            |   4.  Get Sales Rep Detail          *       |
+            +---------------------------------------------+
+            |  CUSTOMER MANAGEMENT                        |
+            |   5.  Create Customer               *       |
+            |   6.  Update Customer               *       |
+            |   7.  Get Customer History          *       |
+            +---------------------------------------------+
+            |  OPPORTUNITY MANAGEMENT                     |
+            |   8.  Create Opportunity            *       |
+            |   9.  Update Opportunity            *       |
+            |  10.  Close Opportunity             *       |
+            |  11.  List Opps For Rep             *       |
+            +---------------------------------------------+
+            |  INTERACTION & ANALYTICS                    |
+            |  12.  Log Interaction               *       |
+            |  13.  Get Pipeline Forecast.        *       |
+            |  14.  Calc Rep Performance          *       |
+            +---------------------------------------------+
+            |   0.  Exit                                  |
+            +---------------------------------------------+""");
     }
 }

@@ -16,7 +16,6 @@ public class Server_UpdateOpportunity {
             Integer stageID = null;
             Integer statusID = null;
 
-            // Get stageID
             if (!stageName.isEmpty()) {
                 PreparedStatement ps = conn.prepareStatement(
                     "SELECT stageID FROM OpportunityStage WHERE stageName = ?");
@@ -25,7 +24,6 @@ public class Server_UpdateOpportunity {
                 if (rs.next()) stageID = rs.getInt("stageID");
             }
 
-            // Get statusID
             if (!statusName.isEmpty()) {
                 PreparedStatement ps = conn.prepareStatement(
                     "SELECT statusID FROM OpportunityStatus WHERE statusName = ?");

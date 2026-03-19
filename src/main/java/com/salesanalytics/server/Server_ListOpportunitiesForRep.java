@@ -6,21 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Server_ListOpportunitiesForRep
- *
- * Returns all opportunities assigned to one sales rep,
- * enriched with customer name, stage, status, deal amount,
- * and expected close date.
- *
- * API Type : Large List (80 pts)
- * Author   : Joshua Ramos
- */
 public class Server_ListOpportunitiesForRep {
 
-    // -------------------------------------------------------
-    // Result record (plain data holder)
-    // -------------------------------------------------------
     public static class OpportunitySummary {
         public int    opportunityID;
         public String companyName;
@@ -47,17 +34,6 @@ public class Server_ListOpportunitiesForRep {
         }
     }
 
-    // -------------------------------------------------------
-    // Core server method
-    // -------------------------------------------------------
-
-    /**
-     * ListOpportunitiesForRep
-     *
-     * @param repEmail  the email of the sales rep
-     * @return          list of OpportunitySummary, ordered by lastUpdated DESC
-     * @throws SQLException if rep not found or DB error
-     */
     public static List<OpportunitySummary> execute(String repEmail) throws SQLException {
         // Validate input
         if (repEmail == null || repEmail.isBlank()) {
@@ -122,9 +98,6 @@ public class Server_ListOpportunitiesForRep {
         return results;
     }
 
-    // -------------------------------------------------------
-    // Helper: confirm rep exists before running large query
-    // -------------------------------------------------------
     private static boolean repExists(Connection conn, String repEmail) throws SQLException {
         String sql = "SELECT 1 FROM SalesReps WHERE LOWER(email) = LOWER(?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
